@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PulseTube Music</title>
+    <meta
+      name="description"
+      content="A static YouTube-powered music streaming web app using the YouTube Data API and official IFrame Player API."
+    />
+    <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Primary navigation">
+        <a class="brand" href="#/home" aria-label="PulseTube home">
+          <span class="brand-mark">PT</span>
+          <span>PulseTube</span>
+        </a>
+        <nav class="nav-list">
+          <a class="nav-link" href="#/home" data-route="home">Home</a>
+          <a class="nav-link" href="#/search" data-route="search">Search</a>
+          <a class="nav-link" href="#/explore" data-route="explore">Explore</a>
+          <a class="nav-link" href="#/categories" data-route="categories">Categories</a>
+          <a class="nav-link" href="#/library" data-route="library">Library</a>
+          <a class="nav-link" href="#/favorites" data-route="favorites">Favorites</a>
+          <a class="nav-link" href="#/recent" data-route="recent">Recently Played</a>
+        </nav>
+      </aside>
+
+      <main class="main-area">
+        <header class="topbar">
+          <form class="top-search" id="topSearch" role="search">
+            <input id="topSearchInput" type="search" placeholder="Search YouTube music" autocomplete="off" />
+            <button type="submit">Search</button>
+          </form>
+        </header>
+
+        <section class="api-banner" id="apiBanner" hidden></section>
+        <section id="view" class="view" aria-live="polite"></section>
+      </main>
+
+      <aside class="queue-panel" id="queuePanel" aria-label="Playback queue">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Queue</p>
+            <h2>Up next</h2>
+          </div>
+          <button class="icon-btn" id="closeQueue" aria-label="Close queue">×</button>
+        </div>
+        <div class="queue-actions">
+          <button class="soft-btn" data-player-action="shuffleQueue">Shuffle</button>
+          <button class="soft-btn" data-player-action="clearQueue">Clear</button>
+        </div>
+        <div id="queueList" class="queue-list empty-state">No songs in queue yet.</div>
+      </aside>
+    </div>
+
+    <section class="player-bar" id="playerBar" aria-label="YouTube music player">
+      <div class="player-track">
+        <div class="thumb-wrap">
+          <img id="playerThumb" alt="" />
+        </div>
+        <div class="track-meta">
+          <strong id="playerTitle">Choose a song</strong>
+          <span id="playerArtist">Music from YouTube</span>
+        </div>
+      </div>
+
+      <div class="player-center">
+        <div class="player-controls">
+          <button class="icon-btn" data-player-action="shuffle" aria-label="Shuffle">⤨</button>
+          <button class="icon-btn" data-player-action="previous" aria-label="Previous">⏮</button>
+          <button class="play-toggle" data-player-action="toggle" aria-label="Play or pause">▶</button>
+          <button class="icon-btn" data-player-action="next" aria-label="Next">⏭</button>
+          <button class="icon-btn" data-player-action="repeat" aria-label="Repeat">↻</button>
+        </div>
+        <div class="progress-row">
+          <span id="currentTime">0:00</span>
+          <input id="seekBar" class="range" type="range" min="0" max="1000" value="0" aria-label="Seek" />
+          <span id="durationTime">0:00</span>
+        </div>
+      </div>
+
+      <div class="player-side">
+        <button class="icon-btn" data-player-action="mute" aria-label="Mute">🔊</button>
+        <input id="volumeBar" class="range volume" type="range" min="0" max="100" value="80" aria-label="Volume" />
+        <button class="icon-btn" data-player-action="fullscreen" aria-label="Open full screen player">⛶</button>
+      </div>
+      <div id="youtube-frame" class="youtube-frame" aria-hidden="true"></div>
+    </section>
+
+    <div class="modal" id="playerModal" hidden>
+      <div class="modal-backdrop" data-close-modal></div>
+      <div class="modal-card now-modal">
+        <button class="icon-btn modal-close" data-close-modal aria-label="Close full screen player">×</button>
+        <div class="now-art"><img id="modalThumb" alt="" /></div>
+        <div class="now-copy">
+          <p class="eyebrow">Now Playing</p>
+          <h2 id="modalTitle">Choose a song</h2>
+          <p id="modalArtist">Music from YouTube</p>
+          <div class="modal-actions">
+            <button class="soft-btn" data-player-action="previous">Previous</button>
+            <button class="primary-btn" data-player-action="toggle">Play / Pause</button>
+            <button class="soft-btn" data-player-action="next">Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast-stack" id="toastStack" aria-live="polite"></div>
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>
